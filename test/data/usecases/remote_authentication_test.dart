@@ -14,13 +14,14 @@ class RemoteAuthentication {
   });
 
   Future<void> auth() async {
-    await httpClient.request(url: url);
+    await httpClient.request(url: url, method: 'post');
   }
 }
 
 abstract class HttpClient {
   Future<void> request({
     @required String url,
+    @required String method,
   });
 }
 
@@ -29,7 +30,7 @@ class HttpClientSpy extends Mock implements HttpClient {}
 
 // triple A pattern
 void main() {
-  test('Should call HttpClient with correct URL', () async {
+  test('Should call HttpClient with correct values', () async {
     // System under test
 
     // 1 step - arrange
@@ -41,6 +42,9 @@ void main() {
     await sut.auth();
 
     // 3 step - asset
-    verify(httpClient.request(url: url));
+    verify(httpClient.request(
+      url: url,
+      method: 'post',
+    ));
   });
 }
