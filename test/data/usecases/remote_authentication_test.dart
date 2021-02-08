@@ -32,6 +32,16 @@ void main() {
   });
 
   test('Should call HttpClient with correct values', () async {
+    // 1 step - arrange
+    when(httpClient.request(
+      url: anyNamed('url'),
+      method: anyNamed('method'),
+      body: anyNamed('body'),
+    )).thenAnswer((_) async => {
+          'accessToken': faker.guid.guid(),
+          'name': faker.person.name(),
+        });
+
     // 2 step - act (action)
     await sut.auth(params);
 
@@ -91,5 +101,22 @@ void main() {
     final future = sut.auth(params);
 
     expect(future, throwsA(DomainError.invalidCredentials));
+  });
+
+  test('Should return an Account if HttpClient Returns 200', () async {
+    final String accessToken = faker.guid.guid();
+
+    when(httpClient.request(
+      url: anyNamed('url'),
+      method: anyNamed('method'),
+      body: anyNamed('body'),
+    )).thenAnswer((_) async => {
+          'accessToken': accessToken,
+          'name': faker.person.name(),
+        });
+
+    final account = await sut.auth(params);
+
+    expect(account.token, accessToken);
   });
 }
