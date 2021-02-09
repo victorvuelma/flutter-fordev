@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Flutter: Run all Tests",
+      "name": "All tests",
       "type": "dart",
       "request": "launch",
       "program": "./test/"
@@ -10,7 +10,8 @@
     {
       "name": "Flutter",
       "type": "dart",
-      "request": "launch"
+      "request": "launch",
+      "program": "lib/main/main.dart"
     }
   ]
 }
