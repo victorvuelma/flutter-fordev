@@ -43,11 +43,11 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                     RaisedButton(
-                      onPressed: () {},
+                      onPressed: null,
                       child: Text('Entrar'.toUpperCase()),
                     ),
                     FlatButton.icon(
-                      onPressed: null,
+                      onPressed: () {},
                       icon: Icon(Icons.person),
                       label: Text('Criar Conta'),
                     ),
