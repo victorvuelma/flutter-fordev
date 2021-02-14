@@ -160,8 +160,8 @@ void main() {
     sut.validatePassword(password);
 
     expectLater(sut.isLoadingStream, emits(false));
-    sut.mainErrorStream.listen(expectAsync1(
-        (error) => expect(error, DomainError.invalidCredentials.description)));
+    sut.mainErrorStream.listen(
+        expectAsync1((error) => expect(error, 'Credenciais inválidas.')));
 
     await sut.auth();
   });
@@ -173,8 +173,8 @@ void main() {
     sut.validatePassword(password);
 
     expectLater(sut.isLoadingStream, emits(false));
-    sut.mainErrorStream.listen(expectAsync1(
-        (error) => expect(error, DomainError.unexpected.description)));
+    sut.mainErrorStream.listen(expectAsync1((error) =>
+        expect(error, 'Algo errado aconteceu. Tente novamente em breve.')));
 
     await sut.auth();
   });
