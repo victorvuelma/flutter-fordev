@@ -33,11 +33,20 @@ void main() {
     verify(validation.validate(field: 'email', value: email)).called(1);
   });
 
-  test('Should email error if validation fails', () {
+  test('Should emit email error if validation fails', () {
     mockValidation(value: 'email error');
 
     sut.emailErrorStream
         .listen(expectAsync1((error) => expect(error, 'email error')));
+    sut.isFormValidStream
+        .listen(expectAsync1((isValid) => expect(isValid, false)));
+
+    sut.validateEmail(email);
+    sut.validateEmail(email);
+  });
+
+  test('Should emit null if validation succeeds', () {
+    sut.emailErrorStream.listen(expectAsync1((error) => expect(error, null)));
     sut.isFormValidStream
         .listen(expectAsync1((isValid) => expect(isValid, false)));
 
