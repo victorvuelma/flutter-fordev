@@ -7,7 +7,7 @@ import '../protocols/protocols.dart';
 class LoginState {
   String emailError;
 
-  bool get isFormValid => false;
+  bool get isFormValid => emailError == null;
 }
 
 class StreamLoginPresenter {
