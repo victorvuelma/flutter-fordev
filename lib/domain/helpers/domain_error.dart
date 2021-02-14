@@ -8,6 +8,8 @@ extension DomainErrorExtension on DomainError {
     switch (this) {
       case DomainError.invalidCredentials:
         return 'Credenciais inválidas.';
+      case DomainError.unexpected:
+        return 'Algo errado aconteceu. Tente novamente em breve.';
       default:
         return '';
     }
