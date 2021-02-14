@@ -2,14 +2,19 @@ import 'package:faker/faker.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
+import 'package:fordev/domain/usecases/usecases.dart';
+
 import 'package:fordev/presentation/presenters/presenters.dart';
 import 'package:fordev/presentation/protocols/protocols.dart';
 
 class ValidationSpy extends Mock implements Validation {}
 
+class AuthenticationSpy extends Mock implements Authentication {}
+
 void main() {
   StreamLoginPresenter sut;
-  Validation validation;
+  ValidationSpy validation;
+  AuthenticationSpy authentication;
   String email;
   String password;
 
@@ -23,7 +28,11 @@ void main() {
 
   setUp(() {
     validation = ValidationSpy();
-    sut = StreamLoginPresenter(validation: validation);
+    authentication = AuthenticationSpy();
+    sut = StreamLoginPresenter(
+      validation: validation,
+      authentication: authentication,
+    );
     email = faker.internet.email();
     password = faker.internet.password();
     mockValidation();
@@ -50,7 +59,7 @@ void main() {
   test('Should emit null if validation succeeds', () {
     sut.emailErrorStream.listen(expectAsync1((error) => expect(error, null)));
     sut.isFormValidStream
-        .listen(expectAsync1((isValid) => expect(isValid, true)));
+        .listen(expectAsync1((isValid) => expect(isValid, false)));
 
     sut.validateEmail(email);
     sut.validateEmail(email);
@@ -78,7 +87,7 @@ void main() {
     sut.passwordErrorStream
         .listen(expectAsync1((error) => expect(error, null)));
     sut.isFormValidStream
-        .listen(expectAsync1((isValid) => expect(isValid, true)));
+        .listen(expectAsync1((isValid) => expect(isValid, false)));
 
     sut.validatePassword(password);
     sut.validatePassword(password);
@@ -107,5 +116,16 @@ void main() {
     sut.validateEmail(email);
     await Future.delayed(Duration.zero);
     sut.validatePassword(password);
+  });
+
+  test('Should call Authentication with correct values', () async {
+    sut.validateEmail(email);
+    sut.validatePassword(password);
+
+    await sut.auth();
+
+    verify(authentication
+            .auth(AuthenticationParams(email: email, secret: password)))
+        .called(1);
   });
 }
