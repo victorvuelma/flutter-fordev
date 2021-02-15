@@ -5,6 +5,8 @@ import 'package:meta/meta.dart';
 import '../../domain/helpers/helpers.dart';
 import '../../domain/usecases/usecases.dart';
 
+import '../../ui/pages/login/login_presenter.dart';
+
 import '../protocols/protocols.dart';
 
 class LoginState {
@@ -24,7 +26,7 @@ class LoginState {
       passwordError == null;
 }
 
-class StreamLoginPresenter {
+class StreamLoginPresenter implements LoginPresenter {
   final Validation validation;
   final Authentication authentication;
 

@@ -30,6 +30,8 @@ dependencies:
   cupertino_icons: ^1.0.0
   http:
   equatable:
+  provider:
+  get:
 
 dev_dependencies:
   flutter_launcher_icons:
@@ -39,7 +41,6 @@ dev_dependencies:
   test:
   mockito:
   faker:
-  provider:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
