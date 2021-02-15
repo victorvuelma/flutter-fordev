@@ -1,10 +1,14 @@
+import 'package:equatable/equatable.dart';
+
 import '../protocols/protocols.dart';
 
-class EmailValidation implements FieldValidation {
+class EmailValidation extends Equatable implements FieldValidation {
   final String field;
 
   final RegExp emailRegex = RegExp(
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+
+  List get props => [this.field];
 
   EmailValidation(this.field);
 
