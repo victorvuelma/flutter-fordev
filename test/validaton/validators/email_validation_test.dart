@@ -30,4 +30,10 @@ void main() {
 
     expect(error, null);
   });
+
+  test('Should return null if email is valid', () {
+    final error = sut.validate('vuelma@farmarcas.com.br');
+
+    expect(error, null);
+  });
 }
