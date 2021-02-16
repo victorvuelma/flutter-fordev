@@ -86,4 +86,14 @@ class StreamLoginPresenter implements LoginPresenter {
     _controller?.close();
     _controller = null;
   }
+
+  @override
+  void addListener(void Function() listener) {
+    // TODO: implement addListener
+  }
+
+  @override
+  void removeListener(void Function() listener) {
+    // TODO: implement removeListener
+  }
 }
