@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-
-abstract class LoginPresenter extends Listenable {
+abstract class LoginPresenter {
   Stream<String> get emailErrorStream;
   Stream<String> get passwordErrorStream;
   Stream<String> get mainErrorStream;
