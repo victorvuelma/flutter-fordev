@@ -26,6 +26,7 @@ dependencies:
   #
   # INFRA
   http: ^0.12.2
+  flutter_secure_storage: ^3.3.5
   #
   # LANG
   equatable: ^1.2.6
