@@ -1,5 +1,4 @@
-import 'package:get/get_rx/get_rx.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 
 import '../../domain/helpers/helpers.dart';
@@ -17,16 +16,18 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
   String _email;
   String _password;
 
-  var _emailError = RxString();
-  var _passwordError = RxString();
-  var _mainError = RxString();
+  final _emailError = RxString();
+  final _passwordError = RxString();
+  final _mainError = RxString();
+  final _navigateTo = RxString();
 
-  var _isFormValid = false.obs;
-  var _isLoading = false.obs;
+  final _isFormValid = false.obs;
+  final _isLoading = false.obs;
 
   Stream<String> get emailErrorStream => _emailError.stream;
   Stream<String> get passwordErrorStream => _passwordError.stream;
   Stream<String> get mainErrorStream => _mainError.stream;
+  Stream<String> get navigateToStream => _navigateTo.stream;
 
   Stream<bool> get isFormValidStream => _isFormValid.stream;
   Stream<bool> get isLoadingStream => _isLoading.stream;
@@ -67,6 +68,8 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
       ));
 
       await saveCurrentAccount.save(account);
+
+      _navigateTo.value = '/surveys';
     } on DomainError catch (error) {
       _mainError.value = error.description;
       _isLoading.value = false;
