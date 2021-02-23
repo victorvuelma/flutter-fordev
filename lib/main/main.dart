@@ -4,12 +4,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/route_manager.dart';
+import 'package:provider/provider.dart';
 
 import '../ui/components/components.dart';
 
 import './factories/factories.dart';
 
 void main() {
+  Provider.debugCheckInvalidValueType = null;
+
   runApp(App());
 }
 
@@ -26,7 +29,7 @@ class App extends StatelessWidget {
       getPages: [
         GetPage(name: '/login', page: makeLoginPage),
         GetPage(
-            name: '/suveys',
+            name: '/surveys',
             page: () => Scaffold(
                   body: Text('Enquetes'),
                 )),
