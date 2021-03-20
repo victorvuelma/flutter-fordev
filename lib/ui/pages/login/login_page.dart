@@ -25,7 +25,7 @@ class LoginPage extends StatelessWidget {
       body: Builder(
         builder: (context) {
           presenter.isLoadingStream.listen((isLoading) {
-            if (isLoading) {
+            if (isLoading == true) {
               showLoading(context);
             } else {
               hideLoading(context);
@@ -40,7 +40,7 @@ class LoginPage extends StatelessWidget {
 
           presenter.navigateToStream.listen((page) {
             if (page?.isNotEmpty == true) {
-              Get.offAllNamed(page);
+              Get.offAllNamed(page!);
             }
           });
 
@@ -67,7 +67,7 @@ class LoginPage extends StatelessWidget {
                               child: PasswordInput(),
                             ),
                             LoginButton(),
-                            FlatButton.icon(
+                            TextButton.icon(
                               onPressed: () {},
                               icon: Icon(Icons.person),
                               label: Text('Criar Conta'),

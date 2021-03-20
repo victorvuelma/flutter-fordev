@@ -1,5 +1,5 @@
 import 'package:faker/faker.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
 import 'package:fordev/domain/entities/entities.dart';
@@ -9,6 +9,10 @@ import 'package:fordev/domain/usecases/usecases.dart';
 import 'package:fordev/presentation/presenters/presenters.dart';
 import 'package:fordev/presentation/protocols/protocols.dart';
 
+class AuthenticationParamsFake extends Fake implements AuthenticationParams {}
+
+class AccountEntityFake extends Fake implements AccountEntity {}
+
 class ValidationSpy extends Mock implements Validation {}
 
 class AuthenticationSpy extends Mock implements Authentication {}
@@ -16,23 +20,26 @@ class AuthenticationSpy extends Mock implements Authentication {}
 class SaveCurrentAccountSpy extends Mock implements SaveCurrentAccount {}
 
 void main() {
-  GetxLoginPresenter sut;
-  ValidationSpy validation;
-  AuthenticationSpy authentication;
-  SaveCurrentAccountSpy saveCurrentAccount;
-  String email;
-  String password;
-  String token;
+  late GetxLoginPresenter sut;
+  late ValidationSpy validation;
+  late AuthenticationSpy authentication;
+  late SaveCurrentAccountSpy saveCurrentAccount;
+  late String email;
+  late String password;
+  late String token;
 
-  PostExpectation mockValidationCall(String field) => when(validation.validate(
-      field: field == null ? anyNamed('field') : field,
-      value: anyNamed('value')));
+  When mockValidationCall(String? field) => when(() => validation.validate(
+      field: field == null ? any(named: 'field') : field,
+      value: any(named: 'value')));
 
-  void mockValidation({String field, String value}) {
+  void mockValidation({
+    String? field,
+    String? value,
+  }) {
     mockValidationCall(field).thenReturn(value);
   }
 
-  PostExpectation mockAutheticationCall() => when(authentication.auth(any));
+  When mockAutheticationCall() => when(() => authentication.auth(any()));
 
   void mockAuthentication() {
     mockAutheticationCall().thenAnswer((_) async => AccountEntity(token));
@@ -42,12 +49,21 @@ void main() {
     mockAutheticationCall().thenThrow(error);
   }
 
-  PostExpectation mockSaveCurrentAccountCall() =>
-      when(saveCurrentAccount.save(any));
+  When mockSaveCurrentAccountCall() =>
+      when(() => saveCurrentAccount.save(any()));
+
+  void mockSaveCurrentAccount() {
+    mockSaveCurrentAccountCall().thenAnswer((_) => Future<void>.value());
+  }
 
   void mockSaveCurrentAccountError() {
     mockSaveCurrentAccountCall().thenThrow(DomainError.unexpected);
   }
+
+  setUpAll(() {
+    registerFallbackValue<AuthenticationParams>(AuthenticationParamsFake());
+    registerFallbackValue<AccountEntity>(AccountEntityFake());
+  });
 
   setUp(() {
     validation = ValidationSpy();
@@ -64,12 +80,13 @@ void main() {
 
     mockValidation();
     mockAuthentication();
+    mockSaveCurrentAccount();
   });
 
   test('Should call Validation with correct email', () {
     sut.validateEmail(email);
 
-    verify(validation.validate(field: 'email', value: email)).called(1);
+    verify(() => validation.validate(field: 'email', value: email)).called(1);
   });
 
   test('Should emit email error if validation fails', () {
@@ -96,7 +113,8 @@ void main() {
   test('Should call Validation with correct password', () {
     sut.validatePassword(password);
 
-    verify(validation.validate(field: 'password', value: password)).called(1);
+    verify(() => validation.validate(field: 'password', value: password))
+        .called(1);
   });
 
   test('Should emit password error if validation fails', () {
@@ -152,9 +170,8 @@ void main() {
 
     await sut.auth();
 
-    verify(authentication
-            .auth(AuthenticationParams(email: email, secret: password)))
-        .called(1);
+    verify(() => authentication
+        .auth(AuthenticationParams(email: email, secret: password))).called(1);
   });
 
   test('Should call SaveCurrentAccount with correct value', () async {
@@ -163,7 +180,7 @@ void main() {
 
     await sut.auth();
 
-    verify(saveCurrentAccount.save(AccountEntity(token))).called(1);
+    verify(() => saveCurrentAccount.save(AccountEntity(token))).called(1);
   });
 
   test('Should emit UnexpectedError if SaveCurrentAccount fails', () async {

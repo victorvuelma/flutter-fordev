@@ -12,8 +12,8 @@ class EmailValidation extends Equatable implements FieldValidation {
 
   EmailValidation(this.field);
 
-  String validate(String value) {
-    final isValid = value?.isNotEmpty != true || emailRegex.hasMatch(value);
+  String? validate(String? value) {
+    final isValid = value?.isNotEmpty != true || emailRegex.hasMatch(value!);
 
     return isValid ? null : 'Email inválido';
   }

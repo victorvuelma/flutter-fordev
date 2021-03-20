@@ -1,5 +1,3 @@
-import 'package:meta/meta.dart';
-
 import '../../presentation/protocols/protocols.dart';
 import '../protocols/protocols.dart';
 
@@ -8,9 +6,9 @@ class ValidationComposite implements Validation {
 
   ValidationComposite(this.validations);
 
-  String validate({
-    @required String field,
-    @required String value,
+  String? validate({
+    required String field,
+    required String value,
   }) {
     for (final validation in validations.where((v) => v.field == field)) {
       final error = validation.validate(value);

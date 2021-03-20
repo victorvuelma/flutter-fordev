@@ -1,18 +1,24 @@
 import 'package:faker/faker.dart';
 import 'package:http/http.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
 import 'package:fordev/data/http/http_error.dart';
 
 import 'package:fordev/infra/http/http.dart';
 
+class UriFake extends Fake implements Uri {}
+
 class ClientSpy extends Mock implements Client {}
 
 void main() {
-  HttpAdapter sut;
-  Client client;
-  String url;
+  late HttpAdapter sut;
+  late Client client;
+  late String url;
+
+  setUpAll(() {
+    registerFallbackValue<Uri>(UriFake());
+  });
 
   setUp(() {
     client = ClientSpy();
@@ -29,8 +35,11 @@ void main() {
   });
 
   group('post', () {
-    PostExpectation mockRequest() => when(
-        client.post(any, headers: anyNamed('headers'), body: anyNamed('body')));
+    When mockRequest() => when(() => client.post(
+          any(),
+          headers: any(named: 'headers'),
+          body: any(named: 'body'),
+        ));
 
     void mockResponse(
       int statusCode, {
@@ -54,23 +63,23 @@ void main() {
         'any_key': 'any_value',
       });
 
-      verify(client.post(
-        url,
-        headers: {
-          'accept': 'application/json',
-          'content-type': 'application/json',
-        },
-        body: '{"any_key":"any_value"}',
-      ));
+      verify(() => client.post(
+            Uri.parse(url),
+            headers: {
+              'accept': 'application/json',
+              'content-type': 'application/json',
+            },
+            body: '{"any_key":"any_value"}',
+          ));
     });
 
     test('Should call post without body', () async {
       await sut.request(url: url, method: 'post');
 
-      verify(client.post(
-        any,
-        headers: anyNamed('headers'),
-      ));
+      verify(() => client.post(
+            any(),
+            headers: any(named: 'headers'),
+          ));
     });
 
     test('Should return data if post returns 200', () async {

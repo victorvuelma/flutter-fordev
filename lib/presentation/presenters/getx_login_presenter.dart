@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:meta/meta.dart';
 
 import '../../domain/helpers/helpers.dart';
 import '../../domain/usecases/usecases.dart';
@@ -13,8 +12,8 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
   final Authentication authentication;
   final SaveCurrentAccount saveCurrentAccount;
 
-  String _email;
-  String _password;
+  String? _email;
+  String? _password;
 
   final _emailError = RxString();
   final _passwordError = RxString();
@@ -24,18 +23,18 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
   final _isFormValid = false.obs;
   final _isLoading = false.obs;
 
-  Stream<String> get emailErrorStream => _emailError.stream;
-  Stream<String> get passwordErrorStream => _passwordError.stream;
-  Stream<String> get mainErrorStream => _mainError.stream;
-  Stream<String> get navigateToStream => _navigateTo.stream;
+  Stream<String?> get emailErrorStream => _emailError.stream;
+  Stream<String?> get passwordErrorStream => _passwordError.stream;
+  Stream<String?> get mainErrorStream => _mainError.stream;
+  Stream<String?> get navigateToStream => _navigateTo.stream;
 
-  Stream<bool> get isFormValidStream => _isFormValid.stream;
-  Stream<bool> get isLoadingStream => _isLoading.stream;
+  Stream<bool?> get isFormValidStream => _isFormValid.stream;
+  Stream<bool?> get isLoadingStream => _isLoading.stream;
 
   GetxLoginPresenter({
-    @required this.validation,
-    @required this.authentication,
-    @required this.saveCurrentAccount,
+    required this.validation,
+    required this.authentication,
+    required this.saveCurrentAccount,
   });
 
   void validateEmail(String email) {
@@ -63,8 +62,8 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
       _isLoading.value = true;
 
       final account = await authentication.auth(AuthenticationParams(
-        email: _email,
-        secret: _password,
+        email: _email!,
+        secret: _password!,
       ));
 
       await saveCurrentAccount.save(account);
