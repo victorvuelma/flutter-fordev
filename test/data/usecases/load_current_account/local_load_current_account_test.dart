@@ -1,20 +1,26 @@
+import 'package:faker/faker.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
-class LocalLoadCurrentAccount {
+import 'package:fordev/domain/entities/account_entity.dart';
+import 'package:fordev/domain/usecases/load_current_account.dart';
+
+class LocalLoadCurrentAccount implements LoadCurrentAccount {
   final FetchSecureCacheStorage fetchSecureCacheStorage;
 
   LocalLoadCurrentAccount({
     required this.fetchSecureCacheStorage,
   });
 
-  Future<void> load() async {
-    await fetchSecureCacheStorage.fetchSecure('token');
+  Future<AccountEntity> load() async {
+    final token = await fetchSecureCacheStorage.fetchSecure('token');
+
+    return AccountEntity(token);
   }
 }
 
 abstract class FetchSecureCacheStorage {
-  Future<void> fetchSecure(String key);
+  Future<String> fetchSecure(String key);
 }
 
 class FetchSecureCacheStorageSpy extends Mock
@@ -23,16 +29,18 @@ class FetchSecureCacheStorageSpy extends Mock
 void main() {
   late FetchSecureCacheStorage fetchSecureCacheStorage;
   late LocalLoadCurrentAccount sut;
+  late String token;
 
   When fetchSecureCall() =>
       when(() => fetchSecureCacheStorage.fetchSecure(any()));
 
   void mockFetchSecure() {
-    fetchSecureCall().thenAnswer((_) => Future<void>.value());
+    fetchSecureCall().thenAnswer((_) async => token);
   }
 
   setUp(() {
     fetchSecureCacheStorage = FetchSecureCacheStorageSpy();
+    token = faker.guid.guid();
     sut = LocalLoadCurrentAccount(
         fetchSecureCacheStorage: fetchSecureCacheStorage);
 
@@ -43,5 +51,11 @@ void main() {
     await sut.load();
 
     verify(() => fetchSecureCacheStorage.fetchSecure('token'));
+  });
+
+  test('Should return an AccountEntity', () async {
+    final account = await sut.load();
+
+    expect(account, AccountEntity(token));
   });
 }
