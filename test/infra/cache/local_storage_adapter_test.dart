@@ -1,4 +1,5 @@
 import 'package:faker/faker.dart';
+import 'package:fordev/domain/helpers/helpers.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
@@ -58,10 +59,16 @@ void main() {
   });
 
   group('fetchSecure', () {
-    mockFetchSecure() {
-      when(
-        () => secureStorage.read(key: any(named: 'key')),
-      ).thenAnswer((_) async => value);
+    When mockFetchSecureCall() => when(
+          () => secureStorage.read(key: any(named: 'key')),
+        );
+
+    void mockFetchSecure() {
+      mockFetchSecureCall().thenAnswer((_) async => value);
+    }
+
+    void mockFetchSecureError() {
+      mockFetchSecureCall().thenThrow(Exception());
     }
 
     setUp(() {
@@ -78,6 +85,14 @@ void main() {
       final storageValue = await sut.fetchSecure(key);
 
       expect(storageValue, value);
+    });
+
+    test('Should throw if fetchSecure throws', () {
+      mockFetchSecureError();
+
+      final future = sut.fetchSecure(key);
+
+      expect(future, throwsA(TypeMatcher<Exception>()));
     });
   });
 }
