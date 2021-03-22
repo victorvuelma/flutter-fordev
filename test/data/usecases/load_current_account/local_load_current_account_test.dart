@@ -19,7 +19,9 @@ void main() {
   When mockFetchSecureCall() =>
       when(() => fetchSecureCacheStorage.fetchSecure(any()));
 
-  void mockFetchSecure() {
+  void mockFetchSecure({
+    required String? token,
+  }) {
     mockFetchSecureCall().thenAnswer((_) async => token);
   }
 
@@ -33,7 +35,7 @@ void main() {
     sut = LocalLoadCurrentAccount(
         fetchSecureCacheStorage: fetchSecureCacheStorage);
 
-    mockFetchSecure();
+    mockFetchSecure(token: token);
   });
 
   test('Should call FetchSecureCacheStorage with correct value', () async {
@@ -46,6 +48,14 @@ void main() {
     final account = await sut.load();
 
     expect(account, AccountEntity(token));
+  });
+
+  test('Should return null if token is null', () async {
+    mockFetchSecure(token: null);
+
+    final account = await sut.load();
+
+    expect(account, null);
   });
 
   test('Should throw UnepectedError if FetchSecureCacheStorage throws',
