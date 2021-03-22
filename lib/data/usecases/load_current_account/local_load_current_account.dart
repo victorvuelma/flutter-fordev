@@ -15,6 +15,10 @@ class LocalLoadCurrentAccount implements LoadCurrentAccount {
     try {
       final token = await fetchSecureCacheStorage.fetchSecure('token');
 
+      if (token == null) {
+        throw DomainError.unexpected;
+      }
+
       return AccountEntity(token);
     } catch (error) {
       throw DomainError.unexpected;
