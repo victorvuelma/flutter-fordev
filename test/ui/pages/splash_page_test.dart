@@ -15,7 +15,7 @@ void main() {
   late StreamController<String?> navigateToController;
 
   void mockLoadCurrentAccount() {
-    when(() => presenter.loadCurrentAccount()).thenAnswer(
+    when(() => presenter.loadAccount()).thenAnswer(
       (_) => Future<void>.value(),
     );
   }
@@ -64,7 +64,7 @@ void main() {
     (WidgetTester tester) async {
       await loadPage(tester);
 
-      verify(() => presenter.loadCurrentAccount()).called(1);
+      verify(() => presenter.loadAccount()).called(1);
     },
   );
 
