@@ -102,7 +102,7 @@ void main() {
   });
 
   test('Should return an Account if HttpClient Returns 200', () async {
-    final Map validData = mockValidData();
+    final validData = mockValidData();
     mockHttpData(validData);
 
     final account = await sut.auth(params);

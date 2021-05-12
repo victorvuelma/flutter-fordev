@@ -6,14 +6,16 @@ import '../../ui/pages/pages.dart';
 class GetxSplashPresenter implements SplashPresenter {
   final LoadCurrentAccount loadCurrentAccount;
 
-  final _navigateTo = RxString();
+  final _navigateTo = RxnString();
 
+  @override
   Stream<String?> get navigateToStream => _navigateTo.stream;
 
   GetxSplashPresenter({
     required this.loadCurrentAccount,
   });
 
+  @override
   Future<void> loadAccount({
     int durationInSeconds = 1,
   }) async {

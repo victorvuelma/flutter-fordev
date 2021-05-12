@@ -9,6 +9,7 @@ class HttpAdapter implements HttpClient {
 
   HttpAdapter(this.client);
 
+  @override
   Future<Map?> request({
     required String url,
     required String method,
@@ -25,7 +26,7 @@ class HttpAdapter implements HttpClient {
     try {
       final uri = Uri.parse(url);
 
-      if (method == "post") {
+      if (method == 'post') {
         response = await client.post(
           uri,
           headers: headers,

@@ -11,6 +11,7 @@ class LocalLoadCurrentAccount implements LoadCurrentAccount {
     required this.fetchSecureCacheStorage,
   });
 
+  @override
   Future<AccountEntity?> load() async {
     try {
       final token = await fetchSecureCacheStorage.fetchSecure('token');

@@ -6,6 +6,7 @@ class ValidationComposite implements Validation {
 
   ValidationComposite(this.validations);
 
+  @override
   String? validate({
     required String field,
     required String value,

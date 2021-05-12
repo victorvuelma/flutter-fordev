@@ -10,6 +10,7 @@ class LocalStorageAdapter
     required this.secureStorage,
   });
 
+  @override
   Future<void> saveSecure({
     required String key,
     required String value,
@@ -17,6 +18,7 @@ class LocalStorageAdapter
     await secureStorage.write(key: key, value: value);
   }
 
+  @override
   Future<String?> fetchSecure(String key) async {
     final value = await secureStorage.read(key: key);
 

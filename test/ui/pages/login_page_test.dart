@@ -78,7 +78,7 @@ void main() {
     closeStreams();
   });
 
-  testWidgets("Should load with correct initial state",
+  testWidgets('Should load with correct initial state',
       (WidgetTester tester) async {
     await loadPage(tester);
 
@@ -106,7 +106,7 @@ void main() {
     expect(find.byType(CircularProgressIndicator), findsNothing);
   });
 
-  testWidgets("Should call validate with correct values",
+  testWidgets('Should call validate with correct values',
       (WidgetTester tester) async {
     await loadPage(tester);
 
@@ -121,7 +121,7 @@ void main() {
     verify(() => presenter.validatePassword(password));
   });
 
-  testWidgets("Should present error if email is invalid",
+  testWidgets('Should present error if email is invalid',
       (WidgetTester tester) async {
     await loadPage(tester);
 
@@ -131,7 +131,7 @@ void main() {
     expect(find.text('an error'), findsOneWidget);
   });
 
-  testWidgets("Should present no error if email is valid",
+  testWidgets('Should present no error if email is valid',
       (WidgetTester tester) async {
     await loadPage(tester);
 
@@ -145,7 +145,7 @@ void main() {
     );
   });
 
-  testWidgets("Should present no error if email is valid",
+  testWidgets('Should present no error if email is valid',
       (WidgetTester tester) async {
     await loadPage(tester);
 
@@ -159,7 +159,7 @@ void main() {
     );
   });
 
-  testWidgets("Should present error if password is invalid",
+  testWidgets('Should present error if password is invalid',
       (WidgetTester tester) async {
     await loadPage(tester);
 
@@ -169,7 +169,7 @@ void main() {
     expect(find.text('an error'), findsOneWidget);
   });
 
-  testWidgets("Should present no error if password is valid",
+  testWidgets('Should present no error if password is valid',
       (WidgetTester tester) async {
     await loadPage(tester);
 
@@ -183,7 +183,7 @@ void main() {
     );
   });
 
-  testWidgets("Should present no error if password is valid",
+  testWidgets('Should present no error if password is valid',
       (WidgetTester tester) async {
     await loadPage(tester);
 
@@ -197,7 +197,7 @@ void main() {
     );
   });
 
-  testWidgets("Should enable button if form is valid",
+  testWidgets('Should enable button if form is valid',
       (WidgetTester tester) async {
     await loadPage(tester);
 
@@ -208,7 +208,7 @@ void main() {
     expect(button.onPressed, isNotNull);
   });
 
-  testWidgets("Should disable button if form is invalid",
+  testWidgets('Should disable button if form is invalid',
       (WidgetTester tester) async {
     await loadPage(tester);
 
@@ -219,7 +219,7 @@ void main() {
     expect(button.onPressed, isNull);
   });
 
-  testWidgets("Should call authentication on form submit",
+  testWidgets('Should call authentication on form submit',
       (WidgetTester tester) async {
     await loadPage(tester);
 
@@ -231,7 +231,7 @@ void main() {
     verify(() => presenter.auth()).called(1);
   });
 
-  testWidgets("Should present loading", (WidgetTester tester) async {
+  testWidgets('Should present loading', (WidgetTester tester) async {
     await loadPage(tester);
 
     isLoadingController.add(true);
@@ -240,7 +240,7 @@ void main() {
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
   });
 
-  testWidgets("Should hide loading", (WidgetTester tester) async {
+  testWidgets('Should hide loading', (WidgetTester tester) async {
     await loadPage(tester);
 
     isLoadingController.add(true);
@@ -251,7 +251,7 @@ void main() {
     expect(find.byType(CircularProgressIndicator), findsNothing);
   });
 
-  testWidgets("Should present error message if authentication fails",
+  testWidgets('Should present error message if authentication fails',
       (WidgetTester tester) async {
     await loadPage(tester);
 
@@ -261,7 +261,7 @@ void main() {
     expect(find.text('main error'), findsOneWidget);
   });
 
-  testWidgets("Should change page", (WidgetTester tester) async {
+  testWidgets('Should change page', (WidgetTester tester) async {
     await loadPage(tester);
 
     navigateToController.add('/an_route');
