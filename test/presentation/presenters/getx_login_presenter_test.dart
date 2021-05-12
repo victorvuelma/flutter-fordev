@@ -156,7 +156,8 @@ void main() {
     sut.emailErrorStream.listen(expectAsync1((error) => expect(error, null)));
     sut.passwordErrorStream
         .listen(expectAsync1((error) => expect(error, null)));
-    await await expectLater(sut.isFormValidStream, emitsInOrder([false, true]));
+    // ignore: unawaited_futures
+    expectLater(sut.isFormValidStream, emitsInOrder([false, true]));
 
     sut.validateEmail(email);
     await Future.delayed(Duration.zero);
@@ -188,7 +189,8 @@ void main() {
     sut.validateEmail(email);
     sut.validatePassword(password);
 
-    await expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
+    // ignore: unawaited_futures
+    expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
     sut.mainErrorStream.listen(expectAsync1((error) =>
         expect(error, 'Algo errado aconteceu. Tente novamente em breve.')));
 
@@ -199,7 +201,8 @@ void main() {
     sut.validateEmail(email);
     sut.validatePassword(password);
 
-    await expectLater(sut.isLoadingStream, emitsInOrder([true]));
+    // ignore: unawaited_futures
+    expectLater(sut.isLoadingStream, emitsInOrder([true]));
 
     await sut.auth();
   });
@@ -220,7 +223,8 @@ void main() {
     sut.validateEmail(email);
     sut.validatePassword(password);
 
-    await expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
+    // ignore: unawaited_futures
+    expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
     sut.mainErrorStream.listen(
         expectAsync1((error) => expect(error, 'Credenciais inválidas.')));
 
