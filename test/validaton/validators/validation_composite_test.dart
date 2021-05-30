@@ -1,6 +1,8 @@
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
+import 'package:fordev/presentation/protocols/protocols.dart';
+
 import 'package:fordev/validation/protocols/protocols.dart';
 import 'package:fordev/validation/validators/validators.dart';
 
@@ -13,15 +15,15 @@ void main() {
 
   late ValidationComposite sut;
 
-  void mockValidation1(String? error) {
+  void mockValidation1(ValidationError? error) {
     when(() => validation1.validate(any())).thenReturn(error);
   }
 
-  void mockValidation2(String? error) {
+  void mockValidation2(ValidationError? error) {
     when(() => validation2.validate(any())).thenReturn(error);
   }
 
-  void mockValidation3(String? error) {
+  void mockValidation3(ValidationError? error) {
     when(() => validation3.validate(any())).thenReturn(error);
   }
 
@@ -41,30 +43,28 @@ void main() {
     sut = ValidationComposite([validation1, validation2, validation3]);
   });
 
-  test('Should return null if all validations returns null or empty', () {
-    mockValidation2('');
-
+  test('Should return null if all validations returns null', () {
     final error = sut.validate(field: 'any_field', value: 'any_value');
 
     expect(error, null);
   });
 
   test('Should return the first error', () {
-    mockValidation1('first error');
-    mockValidation2('second error');
-    mockValidation3('other error');
+    mockValidation1(ValidationError.requiredField);
+    mockValidation2(ValidationError.invalidField);
+    mockValidation3(ValidationError.requiredField);
 
     final error = sut.validate(field: 'any_field', value: 'any_value');
 
-    expect(error, 'first error');
+    expect(error, ValidationError.requiredField);
   });
 
   test('Should return the first error of the correct field', () {
-    mockValidation1('first error');
-    mockValidation3('other error');
+    mockValidation1(ValidationError.requiredField);
+    mockValidation3(ValidationError.invalidField);
 
     final error = sut.validate(field: 'other_field', value: 'any_value');
 
-    expect(error, 'other error');
+    expect(error, ValidationError.invalidField);
   });
 }
