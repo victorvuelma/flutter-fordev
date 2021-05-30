@@ -29,7 +29,7 @@ dependencies:
   flutter_secure_storage: ^4.2.0
   #
   # LANG
-  equatable: ^2.0.0
+  equatable: ^2.0.2
   #
   # UI
   cupertino_icons: ^1.0.3
@@ -41,8 +41,8 @@ dev_dependencies:
     sdk: flutter
   
   test: 
-  mocktail: ^0.1.2
-  faker: ^2.0.0-rc.2
+  mocktail: ^0.1.4
+  faker: ^2.0.0
 
   pedantic: ^1.11.0
 
