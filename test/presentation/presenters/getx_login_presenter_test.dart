@@ -205,8 +205,8 @@ void main() {
 
     // ignore: unawaited_futures
     expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
-    sut.mainErrorStream
-        .listen(expectAsync1((error) => expect(error, UiError.unexpected)));
+    // ignore: unawaited_futures
+    expectLater(sut.mainErrorStream, emitsInOrder([null, UiError.unexpected]));
 
     await sut.auth();
   });
@@ -239,8 +239,9 @@ void main() {
 
     // ignore: unawaited_futures
     expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
-    sut.mainErrorStream.listen(
-        expectAsync1((error) => expect(error, UiError.invalidCredentials)));
+    // ignore: unawaited_futures
+    expectLater(
+        sut.mainErrorStream, emitsInOrder([null, UiError.invalidCredentials]));
 
     await sut.auth();
   });
@@ -253,8 +254,26 @@ void main() {
 
     // ignore: unawaited_futures
     expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
-    sut.mainErrorStream
-        .listen(expectAsync1((error) => expect(error, UiError.unexpected)));
+    // ignore: unawaited_futures
+    expectLater(sut.mainErrorStream, emitsInOrder([null, UiError.unexpected]));
+
+    await sut.auth();
+  });
+
+  test('Should remove mainError on auth tries', () async {
+    mockSaveCurrentAccountError();
+    sut.validateEmail(email);
+    sut.validatePassword(password);
+
+    // ignore: unawaited_futures
+    expectLater(
+        sut.mainErrorStream, emitsInOrder([null, UiError.unexpected, null]));
+
+    await sut.auth();
+
+    mockSaveCurrentAccount();
+    sut.validateEmail(email);
+    sut.validatePassword(password);
 
     await sut.auth();
   });
