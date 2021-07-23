@@ -69,6 +69,7 @@ void main() {
           },
         ));
   });
+
   test('Should throw UnexpectedError if HttpClient Returns 400', () async {
     mockHttpError(HttpError.badRequest);
 
