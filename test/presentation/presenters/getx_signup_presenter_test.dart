@@ -199,4 +199,24 @@ void main() {
     sut.validatePasswordConfirmation(passwordConfirmation);
     sut.validatePasswordConfirmation(passwordConfirmation);
   });
+
+  test('Should emit form valid if validation succeed', () async {
+    sut.emailErrorStream.listen(expectAsync1((error) => expect(error, null)));
+    sut.nameErrorStream.listen(expectAsync1((error) => expect(error, null)));
+    sut.passwordErrorStream
+        .listen(expectAsync1((error) => expect(error, null)));
+    sut.passwordConfirmationErrorStream
+        .listen(expectAsync1((error) => expect(error, null)));
+    // ignore: unawaited_futures
+    expectLater(sut.isFormValidStream, emitsInOrder([false, true]));
+
+    sut.validateName(name);
+    await Future.delayed(Duration.zero);
+    sut.validateEmail(email);
+    await Future.delayed(Duration.zero);
+    sut.validatePassword(password);
+    await Future.delayed(Duration.zero);
+    sut.validatePasswordConfirmation(passwordConfirmation);
+    await Future.delayed(Duration.zero);
+  });
 }
