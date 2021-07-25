@@ -10,6 +10,7 @@ class GetxSignUpPresenter extends GetxController {
   final _emailError = Rxn<UiError>();
   final _nameError = Rxn<UiError>();
   final _passwordError = Rxn<UiError>();
+  final _passwordConfirmationError = Rxn<UiError>();
 
   final _isFormValid = false.obs;
 
@@ -19,6 +20,9 @@ class GetxSignUpPresenter extends GetxController {
   Stream<UiError?> get nameErrorStream => _nameError.stream;
   @override
   Stream<UiError?> get passwordErrorStream => _passwordError.stream;
+  @override
+  Stream<UiError?> get passwordConfirmationErrorStream =>
+      _passwordConfirmationError.stream;
 
   @override
   Stream<bool?> get isFormValidStream => _isFormValid.stream;
@@ -42,6 +46,15 @@ class GetxSignUpPresenter extends GetxController {
   @override
   void validatePassword(String password) {
     _passwordError.value = _validateField(field: 'password', value: password);
+    _validateForm();
+  }
+
+  @override
+  void validatePasswordConfirmation(String passwordConfirmation) {
+    _passwordConfirmationError.value = _validateField(
+      field: 'passwordConfirmation',
+      value: passwordConfirmation,
+    );
     _validateForm();
   }
 
