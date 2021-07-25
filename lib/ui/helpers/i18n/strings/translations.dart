@@ -7,8 +7,10 @@ abstract class Translations {
   String get msgWait;
 
   String get addAccount;
+  String get signIn;
 
   String get email;
+  String get name;
   String get password;
-  String get signIn;
+  String get confirmPassword;
 }
