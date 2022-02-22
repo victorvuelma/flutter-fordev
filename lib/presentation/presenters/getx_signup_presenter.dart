@@ -1,11 +1,13 @@
 import 'package:get/get.dart';
 
+import '../../domain/usecases/usecases.dart';
 import '../../ui/helpers/helpers.dart';
 
 import '../protocols/protocols.dart';
 
 class GetxSignUpPresenter extends GetxController {
   final Validation validation;
+  final AddAccount addAccount;
 
   final _emailError = Rxn<UiError>();
   final _nameError = Rxn<UiError>();
@@ -34,6 +36,7 @@ class GetxSignUpPresenter extends GetxController {
 
   GetxSignUpPresenter({
     required this.validation,
+    required this.addAccount,
   });
 
   @override
@@ -96,5 +99,15 @@ class GetxSignUpPresenter extends GetxController {
         _nameError.value == null &&
         _passwordError.value == null &&
         _passwordConfirmationError.value == null;
+  }
+
+  @override
+  Future<void> signUp() async {
+    await addAccount.add(AddAccountParams(
+      name: _name!,
+      email: _email!,
+      password: _password!,
+      passwordConfirmation: _passwordConfirmation!,
+    ));
   }
 }
