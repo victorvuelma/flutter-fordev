@@ -18,6 +18,7 @@ class GetxSignUpPresenter extends GetxController {
   final _passwordConfirmationError = Rxn<UiError>();
 
   final _mainError = Rxn<UiError>();
+  final _navigateTo = RxnString();
 
   final _isFormValid = false.obs;
   final _isLoading = false.obs;
@@ -36,7 +37,11 @@ class GetxSignUpPresenter extends GetxController {
   @override
   Stream<UiError?> get passwordConfirmationErrorStream =>
       _passwordConfirmationError.stream;
+
+  @override
   Stream<UiError?> get mainErrorStream => _mainError.stream;
+  @override
+  Stream<String?> get navigateToStream => _navigateTo.stream;
 
   @override
   Stream<bool?> get isFormValidStream => _isFormValid.stream;
@@ -123,6 +128,7 @@ class GetxSignUpPresenter extends GetxController {
         passwordConfirmation: _passwordConfirmation!,
       ));
       await saveCurrentAccount.save(account);
+      _navigateTo.value = '/surveys';
     } on DomainError catch (error) {
       _isLoading.value = false;
 
