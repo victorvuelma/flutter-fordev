@@ -124,12 +124,16 @@ class GetxSignUpPresenter extends GetxController {
       ));
       await saveCurrentAccount.save(account);
     } on DomainError catch (error) {
+      _isLoading.value = false;
+
       switch (error) {
+        case DomainError.emailInUse:
+          _mainError.value = UiError.emailInUse;
+          break;
         default:
           _mainError.value = UiError.unexpected;
           break;
       }
-      _isLoading.value = false;
     }
   }
 }

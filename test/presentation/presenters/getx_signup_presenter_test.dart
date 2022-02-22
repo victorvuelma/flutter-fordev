@@ -48,6 +48,10 @@ void main() {
     mockAddAccountCall().thenAnswer((_) async => AccountEntity(token));
   }
 
+  void mockAddAccountError(DomainError error) {
+    mockAddAccountCall().thenThrow(error);
+  }
+
   When mockSaveCurrentAccountCall() =>
       when(() => saveCurrentAccount.save(any()));
 
@@ -316,7 +320,39 @@ void main() {
     sut.validatePasswordConfirmation(passwordConfirmation);
 
     // ignore: unawaited_futures
-    expectLater(sut.isLoadingStream, emitsInOrder([true]));
+    expectLater(sut.isLoadingStream, emits(true));
+
+    await sut.signUp();
+  });
+
+  test('Should emit correct events on EmailInUseError', () async {
+    mockAddAccountError(DomainError.emailInUse);
+
+    sut.validateName(name);
+    sut.validateEmail(email);
+    sut.validatePassword(password);
+    sut.validatePasswordConfirmation(passwordConfirmation);
+
+    // ignore: unawaited_futures
+    expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
+    // ignore: unawaited_futures
+    expectLater(sut.mainErrorStream, emits(UiError.emailInUse));
+
+    await sut.signUp();
+  });
+
+  test('Should emit correct events on UnexpectedError', () async {
+    mockAddAccountError(DomainError.unexpected);
+
+    sut.validateName(name);
+    sut.validateEmail(email);
+    sut.validatePassword(password);
+    sut.validatePasswordConfirmation(passwordConfirmation);
+
+    // ignore: unawaited_futures
+    expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
+    // ignore: unawaited_futures
+    expectLater(sut.mainErrorStream, emits(UiError.unexpected));
 
     await sut.signUp();
   });
