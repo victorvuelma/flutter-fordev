@@ -3,26 +3,7 @@ import 'package:test/test.dart';
 
 import 'package:fordev/presentation/protocols/protocols.dart';
 
-import 'package:fordev/validation/protocols/protocols.dart';
-
-class MinLengthValidation implements FieldValidation {
-  @override
-  final String field;
-
-  final int length;
-
-  MinLengthValidation({
-    required this.field,
-    required this.length,
-  });
-
-  @override
-  ValidationError? validate(String? value) {
-    return value != null && value.length >= length
-        ? null
-        : ValidationError.invalidField;
-  }
-}
+import 'package:fordev/validation/validators/validators.dart';
 
 void main() {
   late MinLengthValidation sut;
