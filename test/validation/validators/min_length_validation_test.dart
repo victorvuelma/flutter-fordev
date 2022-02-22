@@ -1,3 +1,4 @@
+import 'package:faker/faker.dart';
 import 'package:test/test.dart';
 
 import 'package:fordev/presentation/protocols/protocols.dart';
@@ -34,5 +35,12 @@ void main() {
 
   test('Should error if value is null', () {
     expect(sut.validate(null), ValidationError.invalidField);
+  });
+
+  test('Should error if value is less than min length', () {
+    expect(
+      sut.validate(faker.randomGenerator.string(4, min: 1)),
+      ValidationError.invalidField,
+    );
   });
 }
