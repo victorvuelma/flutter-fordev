@@ -3,6 +3,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
 import 'package:fordev/domain/entities/entities.dart';
+import 'package:fordev/domain/helpers/helpers.dart';
 import 'package:fordev/domain/usecases/usecases.dart';
 
 import 'package:fordev/presentation/presenters/presenters.dart';
@@ -52,6 +53,10 @@ void main() {
 
   void mockSaveCurrentAccount() {
     mockSaveCurrentAccountCall().thenAnswer((_) => Future<void>.value());
+  }
+
+  void mockSaveCurrentAccountError() {
+    mockSaveCurrentAccountCall().thenThrow(DomainError.unexpected);
   }
 
   setUpAll(() {
@@ -286,5 +291,21 @@ void main() {
     await sut.signUp();
 
     verify(() => saveCurrentAccount.save(AccountEntity(token))).called(1);
+  });
+
+  test('Should emit UnexpectedError if SaveCurrentAccount fails', () async {
+    mockSaveCurrentAccountError();
+
+    sut.validateName(name);
+    sut.validateEmail(email);
+    sut.validatePassword(password);
+    sut.validatePasswordConfirmation(passwordConfirmation);
+
+    // ignore: unawaited_futures
+    expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
+    // ignore: unawaited_futures
+    expectLater(sut.mainErrorStream, emitsInOrder([UiError.unexpected]));
+
+    await sut.signUp();
   });
 }
