@@ -12,14 +12,19 @@ import 'package:fordev/ui/helpers/errors/ui_error.dart';
 
 class AddAccountParamsFake extends Fake implements AddAccountParams {}
 
+class AccountEntityFake extends Fake implements AccountEntity {}
+
 class ValidationSpy extends Mock implements Validation {}
 
 class AddAccountSpy extends Mock implements AddAccount {}
+
+class SaveCurrentAccountSpy extends Mock implements SaveCurrentAccount {}
 
 void main() {
   late GetxSignUpPresenter sut;
   late ValidationSpy validation;
   late AddAccountSpy addAccount;
+  late SaveCurrentAccountSpy saveCurrentAccount;
   late String email;
   late String name;
   late String password;
@@ -42,16 +47,26 @@ void main() {
     mockAddAccountCall().thenAnswer((_) async => AccountEntity(token));
   }
 
+  When mockSaveCurrentAccountCall() =>
+      when(() => saveCurrentAccount.save(any()));
+
+  void mockSaveCurrentAccount() {
+    mockSaveCurrentAccountCall().thenAnswer((_) => Future<void>.value());
+  }
+
   setUpAll(() {
     registerFallbackValue(AddAccountParamsFake());
+    registerFallbackValue(AccountEntityFake());
   });
 
   setUp(() {
     validation = ValidationSpy();
     addAccount = AddAccountSpy();
+    saveCurrentAccount = SaveCurrentAccountSpy();
     sut = GetxSignUpPresenter(
       validation: validation,
       addAccount: addAccount,
+      saveCurrentAccount: saveCurrentAccount,
     );
     email = faker.internet.email();
     name = faker.person.name();
@@ -61,6 +76,7 @@ void main() {
 
     mockValidation();
     mockAddAccount();
+    mockSaveCurrentAccount();
   });
 
   test('Should call Validation with correct email', () {
@@ -259,5 +275,16 @@ void main() {
             passwordConfirmation: passwordConfirmation,
           ),
         )).called(1);
+  });
+
+  test('Should call SaveCurrentAccount with correct value', () async {
+    sut.validateName(name);
+    sut.validateEmail(email);
+    sut.validatePassword(password);
+    sut.validatePasswordConfirmation(passwordConfirmation);
+
+    await sut.signUp();
+
+    verify(() => saveCurrentAccount.save(AccountEntity(token))).called(1);
   });
 }
