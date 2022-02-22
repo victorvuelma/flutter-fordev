@@ -1,13 +1,14 @@
 import 'package:get/get.dart';
 
 import '../../ui/helpers/helpers.dart';
+import '../../ui/pages/pages.dart';
 
 import '../../domain/helpers/helpers.dart';
 import '../../domain/usecases/usecases.dart';
 
 import '../protocols/protocols.dart';
 
-class GetxSignUpPresenter extends GetxController {
+class GetxSignUpPresenter extends GetxController implements SignUpPresenter {
   final Validation validation;
   final AddAccount addAccount;
   final SaveCurrentAccount saveCurrentAccount;
@@ -44,9 +45,9 @@ class GetxSignUpPresenter extends GetxController {
   Stream<String?> get navigateToStream => _navigateTo.stream;
 
   @override
-  Stream<bool?> get isFormValidStream => _isFormValid.stream;
+  Stream<bool> get isFormValidStream => _isFormValid.stream;
   @override
-  Stream<bool?> get isLoadingStream => _isLoading.stream;
+  Stream<bool> get isLoadingStream => _isLoading.stream;
 
   GetxSignUpPresenter({
     required this.validation,
@@ -141,5 +142,10 @@ class GetxSignUpPresenter extends GetxController {
           break;
       }
     }
+  }
+
+  @override
+  void goToLogin() {
+    _navigateTo.value = '/login';
   }
 }

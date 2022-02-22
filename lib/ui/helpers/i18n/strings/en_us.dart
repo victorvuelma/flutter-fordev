@@ -20,6 +20,8 @@ class EnUs implements Translations {
   @override
   String get addAccount => 'Create account';
   @override
+  String get login => 'Login';
+  @override
   String get signIn => 'Sign In';
 
   @override

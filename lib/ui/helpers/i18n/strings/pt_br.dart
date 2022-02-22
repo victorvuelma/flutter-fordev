@@ -19,6 +19,8 @@ class PtBr implements Translations {
   @override
   String get addAccount => 'Criar conta';
   @override
+  String get login => 'Login';
+  @override
   String get signIn => 'Entrar';
 
   @override
