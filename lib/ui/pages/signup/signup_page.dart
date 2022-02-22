@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '../../helpers/helpers.dart';
-import '../../helpers/i18n/i18n.dart';
 import '../../components/components.dart';
 
 import './components/components.dart';

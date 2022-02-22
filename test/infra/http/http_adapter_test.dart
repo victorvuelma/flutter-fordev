@@ -17,7 +17,7 @@ void main() {
   late String url;
 
   setUpAll(() {
-    registerFallbackValue<Uri>(UriFake());
+    registerFallbackValue(UriFake());
   });
 
   setUp(() {

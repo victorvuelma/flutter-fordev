@@ -62,8 +62,8 @@ void main() {
   }
 
   setUpAll(() {
-    registerFallbackValue<AuthenticationParams>(AuthenticationParamsFake());
-    registerFallbackValue<AccountEntity>(AccountEntityFake());
+    registerFallbackValue(AuthenticationParamsFake());
+    registerFallbackValue(AccountEntityFake());
   });
 
   setUp(() {
