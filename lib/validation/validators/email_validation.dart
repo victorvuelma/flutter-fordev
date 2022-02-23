@@ -17,8 +17,11 @@ class EmailValidation extends Equatable implements FieldValidation {
   EmailValidation(this.field);
 
   @override
-  ValidationError? validate(String? value) {
-    final isValid = value?.isNotEmpty != true || emailRegex.hasMatch(value!);
+  ValidationError? validate(Map<String, String?>? input) {
+    final value = input?[field];
+
+    final isValid =
+        input?[field]?.isNotEmpty != true || emailRegex.hasMatch(value!);
 
     return isValid ? null : ValidationError.invalidField;
   }

@@ -12,26 +12,21 @@ void main() {
   });
 
   test('Should return null if email is empty', () {
-    final error = sut.validate('');
-
-    expect(error, null);
+    expect(sut.validate({'any_field': ''}), null);
   });
 
   test('Should return null if email is null', () {
-    final error = sut.validate(null);
-
-    expect(error, null);
+    expect(sut.validate({'any_field': null}), null);
   });
 
   test('Should return null if email is valid', () {
-    final error = sut.validate('vuelma@farmarcas.com.br');
-
-    expect(error, null);
+    expect(sut.validate({'any_field': 'victorvuelma@outlook.com'}), null);
   });
 
   test('Should return error if email is invalid', () {
-    final error = sut.validate('vuelmanãoémail');
-
-    expect(error, ValidationError.invalidField);
+    expect(
+      sut.validate({'any_field': 'vuelmaemail'}),
+      ValidationError.invalidField,
+    );
   });
 }

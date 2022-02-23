@@ -47,22 +47,23 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
   @override
   void validateEmail(String email) {
     _email = email;
-    _emailError.value = _validateField(field: 'email', value: email);
+    _emailError.value = _validateField('email');
     _validateForm();
   }
 
   @override
   void validatePassword(String password) {
     _password = password;
-    _passwordError.value = _validateField(field: 'password', value: password);
+    _passwordError.value = _validateField('password');
     _validateForm();
   }
 
-  UiError? _validateField({
-    required String field,
-    required String value,
-  }) {
-    final error = validation.validate(field: field, value: value);
+  UiError? _validateField(String field) {
+    final formData = {
+      'email': _email,
+      'password': _password,
+    };
+    final error = validation.validate(field: field, input: formData);
 
     if (error == null) {
       return null;

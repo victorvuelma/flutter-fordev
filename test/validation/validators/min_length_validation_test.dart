@@ -13,30 +13,30 @@ void main() {
   });
 
   test('Should error if value is empty', () {
-    expect(sut.validate(''), ValidationError.invalidField);
+    expect(sut.validate({'any_field': ''}), ValidationError.invalidField);
   });
 
   test('Should error if value is null', () {
-    expect(sut.validate(null), ValidationError.invalidField);
+    expect(sut.validate({'any_field': null}), ValidationError.invalidField);
   });
 
   test('Should error if value is less than min length', () {
     expect(
-      sut.validate(faker.randomGenerator.string(4, min: 1)),
+      sut.validate({'any_field': faker.randomGenerator.string(4, min: 1)}),
       ValidationError.invalidField,
     );
   });
 
   test('Should null if value is equal than min length', () {
     expect(
-      sut.validate(faker.randomGenerator.string(5, min: 5)),
+      sut.validate({'any_field': faker.randomGenerator.string(5, min: 5)}),
       null,
     );
   });
 
   test('Should null if value is bigger than min length', () {
     expect(
-      sut.validate(faker.randomGenerator.string(10, min: 6)),
+      sut.validate({'any_field': faker.randomGenerator.string(10, min: 6)}),
       null,
     );
   });

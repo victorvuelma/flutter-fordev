@@ -8,18 +8,21 @@ class CompareFieldsValidation extends Equatable implements FieldValidation {
   @override
   final String field;
 
-  final String valueToCompare;
+  final String fieldToCompare;
 
   CompareFieldsValidation({
     required this.field,
-    required this.valueToCompare,
+    required this.fieldToCompare,
   });
 
   @override
-  List get props => [field, valueToCompare];
+  List get props => [field, fieldToCompare];
 
   @override
-  ValidationError? validate(String? value) {
+  ValidationError? validate(Map<String, String?>? input) {
+    final value = input?[field];
+    final valueToCompare = input?[fieldToCompare];
+
     return value == valueToCompare ? null : ValidationError.invalidField;
   }
 }

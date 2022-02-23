@@ -33,5 +33,16 @@ class ValidationBuilder {
     return this;
   }
 
+  ValidationBuilder sameAs(String fieldToCompare) {
+    _validations.add(
+      CompareFieldsValidation(
+        field: _fieldName,
+        fieldToCompare: fieldToCompare,
+      ),
+    );
+
+    return this;
+  }
+
   List<FieldValidation> build() => _validations;
 }
