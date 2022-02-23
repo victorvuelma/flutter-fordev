@@ -342,7 +342,7 @@ void main() {
     // ignore: unawaited_futures
     expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
     // ignore: unawaited_futures
-    expectLater(sut.mainErrorStream, emitsInOrder([UiError.unexpected]));
+    expectLater(sut.mainErrorStream, emitsInOrder([null, UiError.unexpected]));
 
     await sut.signUp();
   });
@@ -370,7 +370,7 @@ void main() {
     // ignore: unawaited_futures
     expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
     // ignore: unawaited_futures
-    expectLater(sut.mainErrorStream, emits(UiError.emailInUse));
+    expectLater(sut.mainErrorStream, emitsInOrder([null, UiError.emailInUse]));
 
     await sut.signUp();
   });
@@ -386,7 +386,7 @@ void main() {
     // ignore: unawaited_futures
     expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
     // ignore: unawaited_futures
-    expectLater(sut.mainErrorStream, emits(UiError.unexpected));
+    expectLater(sut.mainErrorStream, emitsInOrder([null, UiError.unexpected]));
 
     await sut.signUp();
   });
