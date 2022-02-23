@@ -9,7 +9,10 @@ ThemeData makeAppTheme() {
     primaryColor: primaryColor,
     primaryColorDark: primaryColorDark,
     primaryColorLight: primaryColorLight,
-    accentColor: primaryColor,
+    colorScheme: ColorScheme.fromSwatch().copyWith(
+      secondary: primaryColor,
+      primary: primaryColor,
+    ),
     backgroundColor: Colors.white,
     textTheme: TextTheme(
       headline1: TextStyle(
@@ -26,6 +29,9 @@ ThemeData makeAppTheme() {
         borderSide: BorderSide(color: primaryColor),
       ),
       alignLabelWithHint: true,
+      hintStyle: TextStyle(
+        color: primaryColor,
+      ),
     ),
     buttonTheme: ButtonThemeData(
       colorScheme: ColorScheme.light(primary: primaryColor),
@@ -54,6 +60,9 @@ ThemeData makeAppTheme() {
           borderRadius: BorderRadius.circular(20),
         ),
       ),
+    ),
+    appBarTheme: AppBarTheme(
+      backgroundColor: primaryColor,
     ),
   );
 }
