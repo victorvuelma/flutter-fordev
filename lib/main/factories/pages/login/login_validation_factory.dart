@@ -12,6 +12,6 @@ Validation makeLoginValidation() {
 List<FieldValidation> makeLoginFieldValidations() {
   return [
     ...ValidationBuilder.field('email').required().email().build(),
-    ...ValidationBuilder.field('password').required().build()
+    ...ValidationBuilder.field('password').required().minLength(3).build()
   ];
 }
