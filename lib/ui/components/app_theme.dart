@@ -45,7 +45,7 @@ ThemeData makeAppTheme() {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        primary: primaryColor,
+        backgroundColor: primaryColor,
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
@@ -54,7 +54,7 @@ ThemeData makeAppTheme() {
     ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-        primary: primaryColor,
+        foregroundColor: primaryColor,
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),

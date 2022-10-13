@@ -1,4 +1,4 @@
-package com.example.fordev
+package io.github.victorvuelma.fordev
 
 import io.flutter.embedding.android.FlutterActivity
 
